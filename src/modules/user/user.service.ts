@@ -17,24 +17,27 @@ const getUsers = async () => {
     //     picture: true
     // }
     omit: {
-        password: true
+      password: true,
     },
-    include: {posts: true}
+    include: { posts: true },
   });
   return result;
 };
 
 const getSingleUser = async (id: string) => {
-    const user = await prisma.user.findFirstOrThrow({
-      where: {
-        id: Number(id),
-      },
-    });
-    return user
-}
+  const user = await prisma.user.findFirstOrThrow({
+    omit: {
+      password: true,
+    },
+    where: {
+      id: Number(id),
+    },
+  });
+  return user;
+};
 
 export const UserServices = {
   createUser,
   getUsers,
-  getSingleUser
+  getSingleUser,
 };
