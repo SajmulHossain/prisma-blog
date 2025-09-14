@@ -31,8 +31,19 @@ const getSingleUser =async (req: Request, res: Response) => {
     }
 }
 
+const deleteUser =async (req: Request, res: Response) => {
+    try {
+        const result = await UserServices.deleteUser(req.params.id)
+        res.status(200)
+        .json(result)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export const UserControllers = {
     createUser,
     getUsers,
-    getSingleUser
+    getSingleUser,
+    deleteUser
 }
