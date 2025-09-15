@@ -36,8 +36,18 @@ const deletePost = async (id: string) => {
   });
 };
 
+const updatePost = async (id: string, data: Post) => {
+  const result = await prisma.post.updateManyAndReturn({
+    where: {
+      id: Number(id),
+    },
+    data,
+  });
+};
+
 export const PostServices = {
   createPost,
   getPosts,
-  deletePost
+  deletePost,
+  updatePost
 };

@@ -28,8 +28,18 @@ const deletePost = async (req: Request, res: Response) => {
   }
 };
 
+const updatePost = async (req: Request, res: Response) => {
+  try {
+    const result = await PostServices.updatePost(req.params.id, req.body);
+    return result;
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export const PostControllers = {
   createPost,
   getPosts,
-  deletePost
+  deletePost,
+  updatePost
 };
