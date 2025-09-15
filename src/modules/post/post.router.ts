@@ -5,5 +5,6 @@ const router = Router();
 
 router.get("/", PostControllers.getPosts);
 router.post("/", PostControllers.createPost);
+router.delete("/", PostControllers.deletePost);
 
 export const PostRouters = router;
