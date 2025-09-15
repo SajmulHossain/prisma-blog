@@ -5,7 +5,8 @@ const router = Router();
 
 router.get("/", PostControllers.getPosts);
 router.post("/", PostControllers.createPost);
-router.delete("/", PostControllers.deletePost);
-router.patch("/", PostControllers.updatePost);
+router.get("/:id", PostControllers.getSinglePost);
+router.delete("/id", PostControllers.deletePost);
+router.patch("/id", PostControllers.updatePost);
 
 export const PostRouters = router;

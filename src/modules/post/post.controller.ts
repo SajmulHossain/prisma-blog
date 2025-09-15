@@ -19,6 +19,15 @@ const getPosts = async (req: Request, res: Response) => {
   }
 };
 
+const getSinglePost = async (req: Request, res: Response) => {
+  try {
+    const result = await PostServices.getSinglePost(req.params.id);
+    res.status(201).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 const deletePost = async (req: Request, res: Response) => {
   try {
     const result = await PostServices.deletePost(req.params.id);
@@ -40,6 +49,7 @@ const updatePost = async (req: Request, res: Response) => {
 export const PostControllers = {
   createPost,
   getPosts,
+  getSinglePost,
   deletePost,
   updatePost
 };

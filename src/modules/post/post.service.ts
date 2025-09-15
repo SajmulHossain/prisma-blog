@@ -28,6 +28,23 @@ const getPosts = async () => {
   return result;
 };
 
+const getSinglePost = async (id: string) => {
+  const result = await prisma.post.findUnique({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      author: {
+        omit: {
+          password: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
 const deletePost = async (id: string) => {
   return await prisma.post.delete({
     where: {
@@ -48,6 +65,7 @@ const updatePost = async (id: string, data: Post) => {
 export const PostServices = {
   createPost,
   getPosts,
+  getSinglePost,
   deletePost,
-  updatePost
+  updatePost,
 };
