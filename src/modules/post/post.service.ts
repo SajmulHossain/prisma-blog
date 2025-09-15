@@ -14,10 +14,20 @@ const createPost = async (payload: Post) => {
   });
 };
 
-const getPosts = async ({ page, limit }: { page: number; limit: number }) => {
+const getPosts = async ({ page, limit, search }: { page: number; limit: number, search: string }) => {
   const result = await prisma.post.findMany({
     skip: (page - 1) * limit,
     take: limit,
+    where: {
+      OR: [
+        {
+          title: {
+            contains: search,
+            mode: "insensitive"
+          }
+        }
+      ]
+    },
     include: {
       author: {
         omit: {
