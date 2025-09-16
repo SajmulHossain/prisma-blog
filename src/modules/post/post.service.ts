@@ -87,6 +87,17 @@ const getSinglePost = async (id: string) => {
     },
   });
 
+  await prisma.post.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      views: {
+        increment: 1,
+      },
+    },
+  });
+
   return result;
 };
 
