@@ -19,11 +19,13 @@ const getPosts = async ({
   limit,
   search,
   isFeatured,
+  tags
 }: {
   page: number;
   limit: number;
   search: string;
   isFeatured?: boolean;
+  tags?: string[]
 }) => {
   const where: any = {
     AND: [
@@ -38,6 +40,7 @@ const getPosts = async ({
         ],
       },
       typeof isFeatured === "boolean" && { isFeatured },
+      tags?.length && { tags: { hasEvery: tags } }
     ].filter(Boolean),
   };
 
