@@ -48,6 +48,9 @@ const getPosts = async ({
     skip: (page - 1) * limit,
     take: limit,
     where,
+    orderBy: {
+      createdAt: "asc",
+    },
     include: {
       author: {
         omit: {
