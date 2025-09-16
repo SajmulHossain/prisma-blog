@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { UserRouters } from "./modules/user/user.routes";
 import { PostRouters } from "./modules/post/post.router";
+import { AuthRoutes } from "./modules/auth/auth.route";
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.get("/", (_req, res) => {
 
 app.use("/api/v1/users", UserRouters);
 app.use("/api/v1/posts", PostRouters);
+app.use("/api/v1/auth", AuthRoutes);
 
 // 404 Handler
 app.use((_req, res, next) => {
