@@ -36,7 +36,7 @@ const getSinglePost = async (req: Request, res: Response) => {
 const deletePost = async (req: Request, res: Response) => {
   try {
     const result = await PostServices.deletePost(req.params.id);
-    return result;
+    res.status(200).json(result)
   } catch (error) {
     res.status(500).json(error);
   }
@@ -45,7 +45,7 @@ const deletePost = async (req: Request, res: Response) => {
 const updatePost = async (req: Request, res: Response) => {
   try {
     const result = await PostServices.updatePost(req.params.id, req.body);
-    return result;
+    res.status(202).json(result)
   } catch (error) {
     res.status(500).json(error);
   }

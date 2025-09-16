@@ -18,25 +18,33 @@ const getPosts = async ({
   page,
   limit,
   search,
+  isFeatured,
 }: {
   page: number;
   limit: number;
   search: string;
-  isFeatured: boolean | undefined;
+  isFeatured?: boolean;
 }) => {
+  const where: any = {
+    AND: [
+      search && {
+        OR: [
+          {
+            title: {
+              contains: search,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      typeof isFeatured === "boolean" && { isFeatured },
+    ].filter(Boolean),
+  };
+
   const result = await prisma.post.findMany({
     skip: (page - 1) * limit,
     take: limit,
-    where: {
-      OR: [
-        {
-          title: {
-            contains: search,
-            mode: "insensitive",
-          },
-        },
-      ],
-    },
+    where,
     include: {
       author: {
         omit: {
