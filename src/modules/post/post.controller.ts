@@ -52,10 +52,20 @@ const updatePost = async (req: Request, res: Response) => {
   }
 };
 
+const getState = async (_req: Request, res: Response) => {
+  try {
+    const result = await PostServices.getState();
+    res.status(202).json(result);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 export const PostControllers = {
   createPost,
   getPosts,
   getSinglePost,
   deletePost,
-  updatePost
+  updatePost,
+  getState
 };

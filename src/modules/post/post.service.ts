@@ -1,5 +1,6 @@
 import { Post } from "@prisma/client";
 import { prisma } from "../../config/db";
+import { totalmem } from "os";
 
 const createPost = async (payload: Post) => {
   return prisma.post.create({
@@ -124,10 +125,33 @@ const updatePost = async (id: string, data: Post) => {
   return result;
 };
 
+const getState = async () => {
+  return await prisma.$transaction(async (tx) => {
+    const aggregates = await tx.post.aggregate({
+      _count: true,
+      _sum: { views: true },
+      _avg: { views: true },
+      _min: { views: true },
+      _max: { views: true },
+    });
+
+    return {
+      states: {
+        totalPosts: aggregates._count,
+        totalViews: aggregates._sum.views,
+        avgViews: aggregates._avg.views,
+        minViews: aggregates._min.views,
+        maxViews: aggregates._max.views,
+      },
+    };
+  });
+};
+
 export const PostServices = {
   createPost,
   getPosts,
   getSinglePost,
   deletePost,
   updatePost,
+  getState,
 };
