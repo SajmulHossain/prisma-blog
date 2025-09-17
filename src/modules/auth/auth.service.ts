@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { prisma } from "../../config/db";
 
 const login = async ({
@@ -13,8 +14,6 @@ const login = async ({
     },
   });
 
-  console.log(user);
-
   if (!user) {
     throw Error("User not exist");
   }
@@ -26,6 +25,23 @@ const login = async ({
   return user;
 };
 
+const loginWithGoogle = async (data: Prisma.UserCreateInput) => {
+  let user = await prisma.user.findUnique({
+    where: {
+      email: data.email,
+    },
+  });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data,
+    });
+  }
+
+  return user;
+};
+
 export const AuthServices = {
   login,
+  loginWithGoogle
 };
