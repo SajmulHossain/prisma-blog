@@ -135,6 +135,28 @@ const getState = async () => {
       _max: { views: true },
     });
 
+    const featuredCount = await tx.post.count({
+      where: {
+        isFeatured: true,
+      },
+    });
+
+    const topFeatured = await tx.post.findFirst({
+      where: { isFeatured: true },
+      orderBy: { views: "desc" },
+    });
+
+    const lastWeek = new Date();
+    lastWeek.setDate(lastWeek.getDate() - 7);
+
+    const lastWeekPostCount = await prisma.post.count({
+      where: {
+        createdAt: {
+          gte: lastWeek,
+        },
+      },
+    });
+
     return {
       states: {
         totalPosts: aggregates._count,
@@ -142,6 +164,11 @@ const getState = async () => {
         avgViews: aggregates._avg.views,
         minViews: aggregates._min.views,
         maxViews: aggregates._max.views,
+        lastWeekPostCount,
+        featuredPost: {
+          featuredCount,
+          topFeatured,
+        },
       },
     };
   });
